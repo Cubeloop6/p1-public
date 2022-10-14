@@ -23,20 +23,19 @@ public class ArrayStack<E> extends LIFOWorkList<E> {
 
     @Override
     public void add(E work) {
-        if (top == capacity - 1) {
+        if (this.top + 1 == capacity) {
             capacity = capacity * 2;
             E[] anotherArray = (E[]) new Object[capacity];
             for (int i = 0; i < capacity / 2; i++) {
                 anotherArray[i] = array[i];
             }
             array = anotherArray;
-            anotherArray = null;
-
 
         }
-        array[top+1] = work;
+        this.top++;
+        array[this.top] = work;
 
-        top++;
+
         size++;
 
 
@@ -47,7 +46,7 @@ public class ArrayStack<E> extends LIFOWorkList<E> {
         if (!hasWork()) {
             throw new NoSuchElementException();
         }
-        return array[top];
+        return array[this.top];
     }
 
     @Override
@@ -55,12 +54,12 @@ public class ArrayStack<E> extends LIFOWorkList<E> {
         if (!hasWork()) {
             throw new NoSuchElementException();
         }
-        E return_value = peek();
-        array[top] = null;
+//        E return_value = peek();
+  //      array[top] = null;
 
         top--;
         size--;
-        return return_value;
+        return array[this.top + 1];
     }
 
     @Override
@@ -71,7 +70,7 @@ public class ArrayStack<E> extends LIFOWorkList<E> {
     @Override
     public void clear() {
         capacity = 10;
-        array = (E[]) new Object[capacity];
-        top = 0;
+        this.array = (E[]) new Object[capacity];
+        this.top = -1;
     }
 }
